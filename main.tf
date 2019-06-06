@@ -19,6 +19,7 @@ locals {
 }
 
 resource "google_pubsub_topic" "topic" {
+  count   = "${var.topic == "" ? 0 : 1}"
   name    = "${var.topic}"
   project = "${var.project_id}"
 }
@@ -26,7 +27,7 @@ resource "google_pubsub_topic" "topic" {
 resource "google_pubsub_subscription" "push_subscriptions" {
   count                = "${length(var.push_subscriptions)}"
   name                 = "${lookup(var.push_subscriptions[count.index], "name")}"
-  topic                = "${google_pubsub_topic.topic.name}"
+  topic                = "${google_pubsub_topic.topic.0.name}"
   project              = "${var.project_id}"
   ack_deadline_seconds = "${lookup(var.push_subscriptions[count.index], "ack_deadline_seconds", local.default_ack_deadline_seconds)}"
 
@@ -46,7 +47,7 @@ resource "google_pubsub_subscription" "push_subscriptions" {
 resource "google_pubsub_subscription" "pull_subscriptions" {
   count                = "${length(var.pull_subscriptions)}"
   name                 = "${lookup(var.pull_subscriptions[count.index], "name")}"
-  topic                = "${google_pubsub_topic.topic.name}"
+  topic                = "${google_pubsub_topic.topic.0.name}"
   project              = "${var.project_id}"
   ack_deadline_seconds = "${lookup(var.pull_subscriptions[count.index], "ack_deadline_seconds", local.default_ack_deadline_seconds)}"
 
