@@ -23,6 +23,3 @@ attributes:
   - name: topic_name
     type: string
     required: true
-  - name: credentials_file_path
-    type: string
-    required: true
