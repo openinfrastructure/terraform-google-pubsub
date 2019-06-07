@@ -19,7 +19,7 @@ provider "google" {
 }
 
 module "pubsub" {
-  source     = "../../"
+  source     = "../../../"
   project_id = "${var.project}"
   topic      = "${var.topic_name}"
 
