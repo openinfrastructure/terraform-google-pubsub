@@ -38,8 +38,10 @@ input = open(sys.argv[1], "r").read()
 replace_content = open(sys.argv[2], "r").read()
 
 # Exclude the specified content from the replacement content
-groups = re.match(exclude_separator_regex, replace_content, re.DOTALL).groups(0)
-replace_content = groups[0] + groups[1]
+match_data = re.match(exclude_separator_regex, replace_content, re.DOTALL)
+if match_data:
+  groups = match_data.groups(0)
+  replace_content = groups[0] + groups[1]
 
 # Find where to put the replacement content, overwrite the input file
 groups = re.match(insert_separator_regex, input, re.DOTALL).groups(0)
