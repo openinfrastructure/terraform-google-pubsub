@@ -30,7 +30,8 @@ module "pubsub" {
 }
 ```
 
-[^]: (autogen_docs_start)## Inputs
+[^]: (autogen_docs_start)
+## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
@@ -48,6 +49,7 @@ module "pubsub" {
 | subscription_paths | The path list of Pub/Sub subscriptions |
 | topic | The name of the Pub/Sub topic |
 | uri | The URI of the Pub/Sub topic |
+
 
 
 [^]: (autogen_docs_end)

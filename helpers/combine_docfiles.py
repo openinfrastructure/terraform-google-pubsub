@@ -45,5 +45,5 @@ if match_data:
 
 # Find where to put the replacement content, overwrite the input file
 groups = re.match(insert_separator_regex, input, re.DOTALL).groups(0)
-output = groups[0] + replace_content + groups[2]
+output = '\n'.join([groups[0], replace_content, groups[2]])
 open(sys.argv[1], "w").write(output)
