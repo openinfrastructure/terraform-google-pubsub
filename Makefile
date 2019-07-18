@@ -15,6 +15,16 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
+# Docker build config variables
+CREDENTIALS_PATH 								?= /cft/workdir/credentials.json
+DOCKER_ORG 											:= gcr.io/cloud-foundation-cicd
+HELPER_FUNCTION_PATH            := /cft/home/helper_functions/task_helper_functions.sh
+LINT_IMAGE_VERSION 							?= 2.5.0
+KITCHEN_TERRAFORM_IMAGE_VERSION ?= 2.3.0
+#LINT_IMAGE_REPO_BASE 						:= ${DOCKER_ORG}/cft/lint:${LINT_IMAGE_VERSION}
+LINT_IMAGE_REPO_BASE 						:= cft/lint:${LINT_IMAGE_VERSION}
+KITCHEN_TERRAFORM_REPO_BASE 		:= ${DOCKER_ORG}/cft/kitchen-terraform:${KITCHEN_TERRAFORM_IMAGE_VERSION}
+
 # All is the first target in the file so it will get picked up when you just run 'make' on its own
 all: check_shell check_python check_golang check_terraform check_docker check_base_files check_trailing_whitespace generate_docs
 
@@ -23,47 +33,91 @@ all: check_shell check_python check_golang check_terraform check_docker check_ba
 # working
 .PHONY: check_shell
 check_shell:
-	@source test/make.sh && check_shell
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "check_shell"
 
 .PHONY: check_python
 check_python:
-	@source test/make.sh && check_python
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "check_python"
 
 .PHONY: check_golang
 check_golang:
-	@source test/make.sh && golang
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "golang"
 
 .PHONY: check_terraform
 check_terraform:
-	@source test/make.sh && check_terraform
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "check_terraform"
 
 .PHONY: check_docker
 check_docker:
-	@source test/make.sh && docker
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "docker"
 
 .PHONY: check_base_files
 check_base_files:
-	@source test/make.sh && basefiles
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "basefiles"
 
 .PHONY: check_shebangs
 check_shebangs:
-	@source test/make.sh && check_bash
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "check_bash"
 
 .PHONY: check_trailing_whitespace
 check_trailing_whitespace:
-	@source test/make.sh && check_trailing_whitespace
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "check_trailing_whitespace"
 
 .PHONY: test_check_headers
 test_check_headers:
-	@python test/test_verify_boilerplate.py
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "test_check_headers"
 
 .PHONY: check_headers
 check_headers:
-	@python test/verify_boilerplate.py
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "check_headers"
 
 .PHONY: generate_docs
 generate_docs:
-	@source test/make.sh && generate_docs
+	@docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		--workdir /cft/workdir \
+		${LINT_IMAGE_REPO_BASE} \
+		/bin/bash -c "generate_docs"
 
 .PHONY: test_integration
 test_integration:
