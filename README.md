@@ -36,18 +36,18 @@ module "pubsub" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| project_id | The project ID to manage the Pub/Sub resources | string | - | yes |
-| pull_subscriptions | The list of the pull subscriptions | list | `<list>` | no |
-| push_subscriptions | The list of the push subscriptions | list | `<list>` | no |
-| topic | The Pub/Sub topic name | string | - | yes |
+| project\_id | The project ID to manage the Pub/Sub resources | string | n/a | yes |
+| pull\_subscriptions | The list of the pull subscriptions | list | `<list>` | no |
+| push\_subscriptions | The list of the push subscriptions | list | `<list>` | no |
+| topic | The Pub/Sub topic name | string | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | id | The ID of the Pub/Sub topic |
-| subscription_names | The name list of Pub/Sub subscriptions |
-| subscription_paths | The path list of Pub/Sub subscriptions |
+| subscription\_names | The name list of Pub/Sub subscriptions |
+| subscription\_paths | The path list of Pub/Sub subscriptions |
 | topic | The name of the Pub/Sub topic |
 | uri | The URI of the Pub/Sub topic |
 
