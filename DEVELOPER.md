@@ -53,6 +53,12 @@ virtualenv --no-site-packages --distribute .env
 source .env/bin/activate
 ```
 
+Next, obtain the shared tasks:
+
+```bash
+pip3 install -r requirements-dev.txt
+```
+
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
 [docker-mac]: https://hub.docker.com/editions/community/docker-ce-desktop-mac
 [brew]: https://brew.sh/
